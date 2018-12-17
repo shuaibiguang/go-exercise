@@ -1,0 +1,1 @@
+docker run --name golang_main -d -it --network golang --network-alias golang_main -vD:\docker\golang:/zpc -p8080:80 golang
