@@ -10,10 +10,9 @@ const (
 )
 
 func main () {
-	var a = 1;
-	var b = a;
-
-	a = 3;
+	var a = 1
+	var b = a
+	a = 3
 	println(a, b)
 	println(&a)
 	println(ABC, DEF, GHT)
