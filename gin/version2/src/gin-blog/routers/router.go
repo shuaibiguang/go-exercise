@@ -48,5 +48,10 @@ func InitRouter() *gin.Engine {
 		})
 	})
 
+	r.GET("/test2", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "test",
+		})
+	})
 	return r
 }

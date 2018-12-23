@@ -28,8 +28,8 @@ const (
 )
 
 func init() {
-	fileParh := getLogFileFullPath()
-	F = openLogFile(fileParh)
+	filePath := getLogFileFullPath()
+	F = openLogFile(filePath)
 
 	logger = log.New(F, DefaultPrefix, log.LstdFlags)
 }
