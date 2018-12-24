@@ -20,7 +20,7 @@ func GetAuth(c *gin.Context) {
 	password := c.Query("password")
 
 	valid := validation.Validation{}
-	a := auth{Username:username, Password:password}
+	a := auth{Username: username, Password: password}
 
 	ok, _ := valid.Valid(&a)
 	data := make(map[string]interface{})
@@ -47,7 +47,7 @@ func GetAuth(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg": e.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": data,
 	})
 

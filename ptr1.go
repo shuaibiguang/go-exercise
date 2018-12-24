@@ -3,9 +3,9 @@ package main
 const MAX int = 3
 
 func main() {
-	var a = []int{1,2,3}
+	var a = []int{1, 2, 3}
 	var ptr [MAX]*int
-	
+
 	for i := 0; i < MAX; i++ {
 		ptr[i] = &a[i]
 	}
@@ -14,7 +14,7 @@ func main() {
 	// 	println(ptr[i])
 	// }
 
-	for _,v := range ptr {
+	for _, v := range ptr {
 		println(*v)
 	}
 }

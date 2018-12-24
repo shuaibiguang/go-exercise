@@ -4,23 +4,22 @@ import (
 	"fmt"
 	"gin-blog/pkg/setting"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
-	_"github.com/jinzhu/gorm/dialects/mysql"
 	"time"
 )
 
 var db *gorm.DB
 
 type Model struct {
-	ID int `gorm:"primary_key" json:"id"`
-	CreatedOn int `json:"created_on"`
+	ID         int `gorm:"primary_key" json:"id"`
+	CreatedOn  int `json:"created_on"`
 	ModifiedOn int `json:"modified_on"`
-	DeletedOn int `json:"deleted_on"`
 }
 
 func Setup() {
 	var (
-		err error
+		err                                               error
 		dbType, dbName, user, password, host, tablePrefix string
 	)
 
@@ -46,7 +45,7 @@ func Setup() {
 		log.Println(err)
 	}
 
-	gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string {
+	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
 		return tablePrefix + defaultTableName
 	}
 
@@ -62,10 +61,9 @@ func CloseDB() {
 	defer db.Close()
 }
 
-
 // 在数据字段创建的时候， 写入创建时间和更改时间
 func updateTimeStampForCreateCallback(scope *gorm.Scope) {
-	if ! scope.HasError() {
+	if !scope.HasError() {
 		nowTime := time.Now().Unix()
 		if createTimeField, ok := scope.FieldByName("CreatedOn"); ok {
 			if createTimeField.IsBlank {

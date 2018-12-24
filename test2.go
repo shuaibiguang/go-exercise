@@ -8,7 +8,7 @@ var (
 var c, d = 1, 2
 var e, f = 123, "hello"
 
-func main () {
+func main() {
 	g, h := 1234, "hello1"
 	println(x, y, a, b, c, d, e, f, g, h)
 }

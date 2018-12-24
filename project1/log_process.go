@@ -22,10 +22,10 @@ type Writer interface {
 }
 
 type LogProcess struct {
-	read Reader  // 读取器
+	read  Reader // 读取器
 	write Writer // 写入器
-	rc chan []byte
-	wc chan *Message
+	rc    chan []byte
+	wc    chan *Message
 }
 
 type ReadFormFile struct {
@@ -37,14 +37,14 @@ type WriteToInfluxDB struct {
 }
 
 type Message struct {
-	TimeLocal time.Time
-	BytesSent int
+	TimeLocal                    time.Time
+	BytesSent                    int
 	Path, Method, Scheme, Status string
-	UpstreamTime, RequestTime float64
+	UpstreamTime, RequestTime    float64
 }
 
 //读取模块
-func (this *ReadFormFile) Read (rc chan []byte) {
+func (this *ReadFormFile) Read(rc chan []byte) {
 	// 首先打开文件
 	// 从文件末尾开始读取
 	// 将读取的内容传入通道当中
@@ -67,20 +67,20 @@ func (this *ReadFormFile) Read (rc chan []byte) {
 }
 
 // 写入模块
-func (this *WriteToInfluxDB) Write (wc chan *Message) {
+func (this *WriteToInfluxDB) Write(wc chan *Message) {
 	for v := range wc {
 		fmt.Println(v)
 	}
 }
 
 // 解析模块
-func (this *LogProcess) Process () {
+func (this *LogProcess) Process() {
 	/**
 	172.0.0.12 - - [04/Mar/2018:13:49:52 +0000] http "GET /foo?query=t HTTP/1.0" 200 2133 "-" "KeepAliveClient" "-" 1.005 1.854
 	*/
 	r := regexp.MustCompile(`([\d\.]+)\s+([^ \[]+)\s+([^ \[]+)\s+\[([^\]]+)\]\s+([a-z]+)\s+\"([^"]+)\"\s+(\d{3})\s+(\d+)\s+\"([^"]+)\"\s+\"(.*?)\"\s+\"([\d\.-]+)\"\s+([\d\.-]+)\s+([\d\.-]+)`)
 
-	loc, _ :=time.LoadLocation("Asia/Shanghai")
+	loc, _ := time.LoadLocation("Asia/Shanghai")
 
 	for v := range this.rc {
 		ret := r.FindStringSubmatch(string(v))
@@ -104,18 +104,18 @@ func (this *LogProcess) Process () {
 		reqSli := strings.Split(ret[6], " ")
 
 		if len(reqSli) != 3 {
-			log.Println("strings.Split fail :" , ret[6])
+			log.Println("strings.Split fail :", ret[6])
 			continue
 		}
 		/*-------------*/
 		u, err := url.Parse(reqSli[1])
-		if (err != nil) {
+		if err != nil {
 			log.Println("url.Parse fail :", err.Error(), reqSli[1])
 		}
 		/*-------------*/
 
-		upstreamTime,_ := strconv.ParseFloat(ret[12], 64)
-		requestTime,_ := strconv.ParseFloat(ret[13], 64)
+		upstreamTime, _ := strconv.ParseFloat(ret[12], 64)
+		requestTime, _ := strconv.ParseFloat(ret[13], 64)
 
 		message.TimeLocal = t
 		message.BytesSent = byteSent
@@ -134,10 +134,10 @@ func main() {
 	//r := &ReadFormFile{path: "./access.log"}
 	//w := &WriteToInfluxDB{influxDBDsn: "asdasdasdas"}
 	lp := &LogProcess{
-		read: &ReadFormFile{path: "./access.log"},
+		read:  &ReadFormFile{path: "./access.log"},
 		write: &WriteToInfluxDB{influxDBDsn: "asdasdasdas"},
-		rc: make(chan []byte),
-		wc: make(chan *Message),
+		rc:    make(chan []byte),
+		wc:    make(chan *Message),
 	}
 
 	go lp.read.Read(lp.rc)

@@ -9,7 +9,7 @@ import (
 )
 
 func JWT() gin.HandlerFunc {
-	return func (c *gin.Context) {
+	return func(c *gin.Context) {
 		var code int
 		var data interface{}
 
@@ -30,7 +30,7 @@ func JWT() gin.HandlerFunc {
 		if code != e.SUCCESS {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"code": code,
-				"msg": e.GetMsg(code),
+				"msg":  e.GetMsg(code),
 				"data": data,
 			})
 			c.Abort()

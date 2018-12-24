@@ -9,7 +9,7 @@ import (
 )
 
 func getLogFilePath() string {
-	return fmt.Sprintf("%s%s", setting.AppSetting.RuntimeRootPath,setting.AppSetting.LogSavePath)
+	return fmt.Sprintf("%s%s", setting.AppSetting.RuntimeRootPath, setting.AppSetting.LogSavePath)
 }
 
 func getLogFileName() string {
@@ -19,7 +19,7 @@ func getLogFileName() string {
 		setting.AppSetting.LogFileExt)
 }
 
-func openLogFile (fileName, filePath string) (*os.File, error) {
+func openLogFile(fileName, filePath string) (*os.File, error) {
 	dir, err := os.Getwd()
 	if err != nil {
 		return nil, fmt.Errorf("os.Getwd err: %v", err)
@@ -35,7 +35,7 @@ func openLogFile (fileName, filePath string) (*os.File, error) {
 	if perm == true {
 		return nil, fmt.Errorf("file.CheckPermission Permission denied src: %v", src)
 	}
-	f, err := file.Open(src + fileName, os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0644)
+	f, err := file.Open(src+fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
 		return nil, fmt.Errorf("Fail to OpenFile :%v", err)

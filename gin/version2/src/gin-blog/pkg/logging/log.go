@@ -11,12 +11,12 @@ import (
 type Level int
 
 var (
-	F *os.File
-	DefaultPrefix = ""
+	F                  *os.File
+	DefaultPrefix      = ""
 	DefaultCallerDepth = 2
-	logger *log.Logger
-	logPrefix = ""
-	levelFlags = []string{"DEBUG", "INFO", "WARN", "ERROR", "FATAL"}
+	logger             *log.Logger
+	logPrefix          = ""
+	levelFlags         = []string{"DEBUG", "INFO", "WARN", "ERROR", "FATAL"}
 )
 
 const (
@@ -34,7 +34,7 @@ func init() {
 	logger = log.New(F, DefaultPrefix, log.LstdFlags)
 }
 
-func Debug(v ...interface{}){
+func Debug(v ...interface{}) {
 	setPrefix(DEBUG)
 	logger.Println(v)
 }

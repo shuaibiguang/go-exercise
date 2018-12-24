@@ -16,7 +16,7 @@ func main() {
 		fmt.Printf("b[:n] = %q \n", b[:n])
 
 		if err == io.EOF {
-			break;
+			break
 		}
 	}
 }

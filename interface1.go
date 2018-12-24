@@ -5,7 +5,7 @@ import "fmt"
 // type i interface {}
 
 type Va struct {
-	a string 
+	a string
 	b int
 }
 

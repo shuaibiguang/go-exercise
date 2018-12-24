@@ -7,8 +7,8 @@ type IPAddr [4]byte
 // TODO: Add a "String() string" method to IPAddr.
 func (ip IPAddr) String() string {
 	var ipa string
-	
-	for _,v := range ip {
+
+	for _, v := range ip {
 		ipa += fmt.Sprintf("%v.", v)
 	}
 	return string([]rune(ipa)[:len(ipa)-1])

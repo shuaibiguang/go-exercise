@@ -62,7 +62,7 @@ func CheckImageSize(f multipart.File) bool {
 }
 
 // 检查图片
-func CheckImage (src string) error {
+func CheckImage(src string) error {
 	dir, err := os.Getwd()
 	if err != nil {
 		return fmt.Errorf("os.Getwd err: %v", err)

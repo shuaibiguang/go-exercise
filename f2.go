@@ -9,7 +9,7 @@ func (c Circle) getArea() int {
 }
 
 type Man struct {
-	age int
+	age  int
 	name string
 }
 
@@ -17,7 +17,6 @@ func setName(man Man, name string) Man {
 	man.name = name
 	return man
 }
-
 
 func (m Man) getAge() int {
 	return m.age

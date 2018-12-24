@@ -1,7 +1,7 @@
 package main
 
-var c string;
-var d = 4;
+var c string
+var d = 4
 
 const (
 	ABC = 1
@@ -9,7 +9,7 @@ const (
 	GHT = len(DEF)
 )
 
-func main () {
+func main() {
 	var a = 1
 	var b = a
 	a = 3
@@ -17,6 +17,6 @@ func main () {
 	println(&a)
 	println(ABC, DEF, GHT)
 	c := 10
-	d := c<<3
+	d := c << 3
 	println(d)
 }

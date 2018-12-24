@@ -3,11 +3,11 @@ package main
 import "fmt"
 
 type Man struct {
-	age int
+	age  int
 	name string
 }
 
-func (man *Man) setName (name string) {
+func (man *Man) setName(name string) {
 	man.name = name
 }
 

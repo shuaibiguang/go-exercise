@@ -7,10 +7,10 @@ import (
 
 type Tag struct {
 	Model
-	Name string `json:"name"`
-	CreatedBy string `json:"created_by"`
+	Name       string `json:"name"`
+	CreatedBy  string `json:"created_by"`
 	ModifiedBy string `json:"modified_by"`
-	State int `json:"state"`
+	State      int    `json:"state"`
 }
 
 // 获取标签
@@ -42,8 +42,8 @@ func ExistTagByName(name string) bool {
 // 新增标签
 func AddTag(name string, state int, createdBy string) bool {
 	db.Create(&Tag{
-		Name: name,
-		State: state,
+		Name:      name,
+		State:     state,
 		CreatedBy: createdBy,
 	})
 

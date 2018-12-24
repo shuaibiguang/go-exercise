@@ -6,12 +6,12 @@ var a = "嘿嘿"
 var b string = "asdasd.com"
 var c bool
 
-func main () {
-	d := []int{1,2,3}
-	e := []int{4,5,6}
+func main() {
+	d := []int{1, 2, 3}
+	e := []int{4, 5, 6}
 	// f := d + e
-	f := func (e []int, d []int) []int {
-		for _,v := range e {
+	f := func(e []int, d []int) []int {
+		for _, v := range e {
 			d = append(d, v)
 		}
 		return d

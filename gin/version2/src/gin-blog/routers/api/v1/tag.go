@@ -36,8 +36,8 @@ func GetTags(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg" : e.GetMsg(code),
-		"data" : data,
+		"msg":  e.GetMsg(code),
+		"data": data,
 	})
 }
 
@@ -57,8 +57,8 @@ func AddTag(c *gin.Context) {
 
 	code := e.INVALID_PARAMS
 
-	if ! valid.HasErrors() {
-		if ! models.ExistTagByName(name) {
+	if !valid.HasErrors() {
+		if !models.ExistTagByName(name) {
 			code = e.SUCCESS
 			models.AddTag(name, state, createdBy)
 		} else {
@@ -72,7 +72,7 @@ func AddTag(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg" : e.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": make(map[string]string),
 	})
 }
@@ -98,7 +98,7 @@ func EditTag(c *gin.Context) {
 
 	code := e.INVALID_PARAMS
 
-	if ! valid.HasErrors() {
+	if !valid.HasErrors() {
 		code = e.SUCCESS
 		if models.ExistTagByID(id) {
 			data := make(map[string]interface{})
@@ -121,7 +121,7 @@ func EditTag(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg": e.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": make(map[string]string),
 	})
 }
@@ -135,7 +135,7 @@ func DeleteTags(c *gin.Context) {
 
 	code := e.INVALID_PARAMS
 
-	if ! valid.HasErrors() {
+	if !valid.HasErrors() {
 		code = e.SUCCESS
 		if models.ExistTagByID(id) {
 			models.DeleteTag(id)
@@ -150,7 +150,7 @@ func DeleteTags(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg": e.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": make(map[string]string),
 	})
 }

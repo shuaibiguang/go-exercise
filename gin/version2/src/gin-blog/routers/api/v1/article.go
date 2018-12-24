@@ -13,7 +13,7 @@ import (
 )
 
 // 获取单个文章
-func GetArticle (c *gin.Context) {
+func GetArticle(c *gin.Context) {
 	id, _ := com.StrTo(c.Param("id")).Int()
 
 	valid := validation.Validation{}
@@ -22,7 +22,7 @@ func GetArticle (c *gin.Context) {
 	code := e.INVALID_PARAMS
 
 	var data interface{}
-	if ! valid.HasErrors() {
+	if !valid.HasErrors() {
 		if models.ExistArticleByID(id) {
 			data = models.GetArticle(id)
 			code = e.SUCCESS
@@ -30,20 +30,20 @@ func GetArticle (c *gin.Context) {
 			code = e.ERROR_NOT_EXIST_ARTICLE
 		}
 	} else {
-		for _,err := range valid.Errors {
+		for _, err := range valid.Errors {
 			logging.Info(err.Key, err.Message)
 		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"code" : code,
-		"msg": e.GetMsg(code),
+		"code": code,
+		"msg":  e.GetMsg(code),
 		"data": data,
 	})
 }
 
 // 获取多个文章
-func GetArticles (c *gin.Context) {
+func GetArticles(c *gin.Context) {
 	data := make(map[string]interface{})
 	maps := make(map[string]interface{})
 
@@ -67,7 +67,7 @@ func GetArticles (c *gin.Context) {
 
 	code := e.INVALID_PARAMS
 
-	if ! valid.HasErrors() {
+	if !valid.HasErrors() {
 		code = e.SUCCESS
 
 		data["lists"] = models.GetArticles(util.GetPage(c), setting.PageSize, maps)
@@ -80,13 +80,13 @@ func GetArticles (c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg": e.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": data,
 	})
 }
 
 // 添加一篇文章
-func AddArticle (c *gin.Context) {
+func AddArticle(c *gin.Context) {
 	tagId, _ := com.StrTo(c.Query("tag_id")).Int()
 	title := c.Query("title")
 	desc := c.Query("desc")
@@ -105,7 +105,7 @@ func AddArticle (c *gin.Context) {
 
 	code := e.INVALID_PARAMS
 
-	if ! valid.HasErrors() {
+	if !valid.HasErrors() {
 		// 确认传入进来的标签是否存在
 		if models.ExistTagByID(tagId) {
 			data := make(map[string]interface{})
@@ -129,13 +129,13 @@ func AddArticle (c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg": e.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": make(map[string]string),
 	})
 }
 
 // 修改一篇文章
-func EditArticle (c *gin.Context) {
+func EditArticle(c *gin.Context) {
 	valid := validation.Validation{}
 
 	id, _ := com.StrTo(c.Param("id")).Int()
@@ -160,7 +160,7 @@ func EditArticle (c *gin.Context) {
 
 	code := e.INVALID_PARAMS
 
-	if ! valid.HasErrors() {
+	if !valid.HasErrors() {
 		if models.ExistArticleByID(id) {
 
 			data := make(map[string]interface{})
@@ -179,7 +179,7 @@ func EditArticle (c *gin.Context) {
 			}
 			data["modified_by"] = modifiedBy
 
-			edit := func (code *int) {
+			edit := func(code *int) {
 				models.EditArticle(id, data)
 				*code = e.SUCCESS
 			}
@@ -187,7 +187,7 @@ func EditArticle (c *gin.Context) {
 			if tagId > 0 && models.ExistTagByID(tagId) {
 				data["tag_id"] = tagId
 				edit(&code)
-			} else if tagId > 0 && ! models.ExistTagByID(tagId) {
+			} else if tagId > 0 && !models.ExistTagByID(tagId) {
 				code = e.ERROR_NOT_EXIST_TAG
 			} else {
 				edit(&code)
@@ -203,15 +203,14 @@ func EditArticle (c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg": e.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": make(map[string]string),
 	})
-
 
 }
 
 //删除一篇文章
-func DeleteArticle (c *gin.Context) {
+func DeleteArticle(c *gin.Context) {
 	id, _ := com.StrTo(c.Param("id")).Int()
 
 	valid := validation.Validation{}
@@ -219,7 +218,7 @@ func DeleteArticle (c *gin.Context) {
 
 	code := e.INVALID_PARAMS
 
-	if ! valid.HasErrors() {
+	if !valid.HasErrors() {
 		if models.ExistArticleByID(id) {
 			models.DeleteArticle(id)
 			code = e.SUCCESS
@@ -234,7 +233,7 @@ func DeleteArticle (c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg": e.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": make(map[string]string),
 	})
 }

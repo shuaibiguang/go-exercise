@@ -1,13 +1,13 @@
 package main
 
-func main () {
+func main() {
 	var arr [10]int
 
-	for k,_ := range arr {
+	for k, _ := range arr {
 		arr[k] = k + 100
 	}
 
-	for k,v := range arr {
-		println(k,v)
+	for k, v := range arr {
+		println(k, v)
 	}
 }
