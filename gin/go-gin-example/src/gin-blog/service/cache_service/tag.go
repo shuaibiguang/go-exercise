@@ -7,11 +7,11 @@ import (
 )
 
 type Tag struct {
-	ID int
-	Name string
+	ID    int
+	Name  string
 	State int
 
-	PageNum int
+	PageNum  int
 	PageSize int
 }
 

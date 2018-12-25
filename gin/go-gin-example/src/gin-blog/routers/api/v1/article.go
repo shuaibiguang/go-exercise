@@ -29,15 +29,15 @@ func GetArticle(c *gin.Context) {
 		return
 	}
 
-	articleService := article_service.Article{ID:id}
+	articleService := article_service.Article{ID: id}
 	exists, err := articleService.ExistByID()
 
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_CHECK_EXIST_ARTICLE_FAIL, nil)
 		return
 	}
-	
-	if ! exists {
+
+	if !exists {
 		appG.Response(http.StatusOK, e.ERROR_NOT_EXIST_ARTICLE, nil)
 		return
 	}
@@ -57,7 +57,7 @@ func GetArticles(c *gin.Context) {
 	appG := app.Gin{c}
 	valid := validation.Validation{}
 
-	 state := -1
+	state := -1
 
 	if arg := c.PostForm("state"); arg != "" {
 		state = com.StrTo(state).MustInt()
@@ -76,9 +76,9 @@ func GetArticles(c *gin.Context) {
 		return
 	}
 	articleService := article_service.Article{
-		TagId:tagId,
-		State:state,
-		PageNum: util.GetPage(c),
+		TagId:    tagId,
+		State:    state,
+		PageNum:  util.GetPage(c),
 		PageSize: setting.AppSetting.PageSize,
 	}
 
@@ -100,6 +100,7 @@ func GetArticles(c *gin.Context) {
 
 	appG.Response(http.StatusOK, e.SUCCESS, data)
 }
+
 type AddArticleForm struct {
 	TagID         int    `form:"tag_id" valid:"Required;Min(1)"`
 	Title         string `form:"title" valid:"Required;MaxSize(100)"`
@@ -161,6 +162,7 @@ type EditArticleForm struct {
 	CoverImageUrl string `form:"cover_image_url" valid:"Required;MaxSize(255)"`
 	State         int    `form:"state" valid:"Range(0,1)"`
 }
+
 // 修改一篇文章
 func EditArticle(c *gin.Context) {
 	var (
@@ -175,7 +177,7 @@ func EditArticle(c *gin.Context) {
 	}
 
 	articleService := article_service.Article{
-		ID:			   form.ID,
+		ID:            form.ID,
 		TagId:         form.TagID,
 		Title:         form.Title,
 		Desc:          form.Desc,

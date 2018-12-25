@@ -17,7 +17,7 @@ type Tag struct {
 func GetTags(pageNum int, pageSize int, maps interface{}) ([]Tag, error) {
 	var (
 		tags []Tag
-		err error
+		err  error
 	)
 	if pageSize > 0 && pageNum > 0 {
 		err = db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags).Error

@@ -7,11 +7,11 @@ import (
 )
 
 type Article struct {
-	ID int
+	ID    int
 	TagId int
 	State int
 
-	PageNum int
+	PageNum  int
 	PageSize int
 }
 
@@ -25,7 +25,7 @@ func (a *Article) GetArticlesKey() string {
 		"LIST",
 	}
 
-	if  a.ID > 0 {
+	if a.ID > 0 {
 		keys = append(keys, strconv.Itoa(a.ID))
 	}
 

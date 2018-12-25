@@ -44,6 +44,7 @@ func GetTags(c *gin.Context) {
 		"total": count,
 	})
 }
+
 type AddTagForm struct {
 	Name      string `form:"name" valid:"Required;MaxSize(100)"`
 	CreatedBy string `form:"created_by" valid:"Required;MaxSize(100)"`
@@ -93,6 +94,7 @@ type EditTagForm struct {
 	ModifiedBy string `form:"modified_by" valid:"Required;MaxSize(100)"`
 	State      int    `form:"state" valid:"Range(0,1)"`
 }
+
 // 修改文章标签
 func EditTag(c *gin.Context) {
 	var (

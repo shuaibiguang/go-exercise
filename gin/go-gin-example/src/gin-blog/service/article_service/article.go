@@ -9,29 +9,29 @@ import (
 )
 
 type Article struct {
-	ID int
-	TagId int
-	Title string
-	Desc string
-	Content string
+	ID            int
+	TagId         int
+	Title         string
+	Desc          string
+	Content       string
 	CoverImageUrl string
-	State int
-	CreatedBy string
-	ModifiedBy string
+	State         int
+	CreatedBy     string
+	ModifiedBy    string
 
-	PageNum int
+	PageNum  int
 	PageSize int
 }
 
 func (a *Article) Add() error {
 	article := map[string]interface{}{
-		"tag_id": a.TagId,
-		"title": a.Title,
-		"desc": a.Desc,
-		"content": a.Content,
-		"created_by": a.CreatedBy,
+		"tag_id":          a.TagId,
+		"title":           a.Title,
+		"desc":            a.Desc,
+		"content":         a.Content,
+		"created_by":      a.CreatedBy,
 		"cover_image_url": a.CoverImageUrl,
-		"state": a.State,
+		"state":           a.State,
 	}
 
 	if err := models.AddArticle(article); err != nil {
@@ -48,7 +48,7 @@ func (a *Article) Edit() error {
 		"desc":            a.Desc,
 		"content":         a.Content,
 		"cover_image_url": a.CoverImageUrl,
-		"state":		   a.State,
+		"state":           a.State,
 		"modified_by":     a.ModifiedBy,
 	})
 }
@@ -79,15 +79,15 @@ func (a *Article) Get() (*models.Article, error) {
 	return article, nil
 }
 
-func (a *Article) GetAll () ([]*models.Article, error) {
+func (a *Article) GetAll() ([]*models.Article, error) {
 	var (
 		articles, cacheArticles []*models.Article
 	)
 
 	cache := cache_service.Article{
-		TagId: a.TagId,
-		State: a.State,
-		PageNum: a.PageNum,
+		TagId:    a.TagId,
+		State:    a.State,
+		PageNum:  a.PageNum,
 		PageSize: a.PageSize,
 	}
 

@@ -10,10 +10,10 @@ var RedisConn *redis.Pool
 
 func Setup() error {
 	RedisConn = &redis.Pool{
-		MaxIdle: setting.RedisSetting.MaxIdle, // 最大空闲链接数
-		MaxActive: setting.RedisSetting.MaxActive,  // 在给定时间内，允许分配的最大连接数 (当为0时， 没有限制)
-		IdleTimeout: setting.RedisSetting.IdleTimeout,  // 在给定时间内将会保持空闲状态， 若到达时间限制则关闭链接（当为0时没有限制）
-		Dial: func () (redis.Conn, error) { // 提供创建和配置应用程序链接的一个函数
+		MaxIdle:     setting.RedisSetting.MaxIdle,     // 最大空闲链接数
+		MaxActive:   setting.RedisSetting.MaxActive,   // 在给定时间内，允许分配的最大连接数 (当为0时， 没有限制)
+		IdleTimeout: setting.RedisSetting.IdleTimeout, // 在给定时间内将会保持空闲状态， 若到达时间限制则关闭链接（当为0时没有限制）
+		Dial: func() (redis.Conn, error) { // 提供创建和配置应用程序链接的一个函数
 			c, err := redis.Dial("tcp", setting.RedisSetting.Host)
 			if err != nil {
 				return nil, err
@@ -26,7 +26,7 @@ func Setup() error {
 			}
 			return c, err
 		},
-		TestOnBorrow:func (c redis.Conn, t time.Time) error {   // 可选的应用程序检查健康功能
+		TestOnBorrow: func(c redis.Conn, t time.Time) error { // 可选的应用程序检查健康功能
 			_, err := c.Do("PING")
 			return err
 		},
@@ -74,7 +74,7 @@ func Get(key string) ([]byte, error) {
 	return reply, nil
 }
 
-func Delete (key string) (bool, error) {
+func Delete(key string) (bool, error) {
 	conn := RedisConn.Get()
 	defer conn.Close()
 
@@ -85,7 +85,7 @@ func LikeDeletes(key string) error {
 	conn := RedisConn.Get()
 	defer conn.Close()
 
-	keys, err := redis.Strings(conn.Do("KEYS", "*" + key + "*"))
+	keys, err := redis.Strings(conn.Do("KEYS", "*"+key+"*"))
 	if err != nil {
 		return err
 	}

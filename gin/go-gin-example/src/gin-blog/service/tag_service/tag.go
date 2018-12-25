@@ -9,13 +9,13 @@ import (
 )
 
 type Tag struct {
-	ID int
-	Name string
-	CreatedBy string
+	ID         int
+	Name       string
+	CreatedBy  string
 	ModifiedBy string
-	State int
+	State      int
 
-	PageNum int
+	PageNum  int
 	PageSize int
 }
 
