@@ -72,7 +72,6 @@ func Setup() {
 	ServerSetting.ReadTimeout = ServerSetting.ReadTimeout * time.Second
 	ServerSetting.WriteTimeout = ServerSetting.WriteTimeout * time.Second
 	RedisSetting.IdleTimeout = RedisSetting.IdleTimeout * time.Second
-
 }
 
 func mapTo(section string, v interface{}) {

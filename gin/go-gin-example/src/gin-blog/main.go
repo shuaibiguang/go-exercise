@@ -8,6 +8,8 @@ import (
 	"gin-blog/pkg/logging"
 	"gin-blog/pkg/setting"
 	"gin-blog/routers"
+	"github.com/gin-gonic/gin"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -16,12 +18,21 @@ import (
 )
 
 func main() {
+	// gin 自己的日志记录, 这个日志只记录请求情况
+	// 禁用控制台颜色， 写入日志的时候不需要颜色？（为了性能？）
+	gin.DisableConsoleColor()
+	f, _ := os.Create("gin.log")
+
+	gin.DefaultWriter = io.MultiWriter(f)
+
 	setting.Setup()
 	models.Setup()
 	logging.Setup()
 	gredis.Setup()
 
 	router := routers.InitRouter()
+
+	log.Printf("run server port : %v", setting.ServerSetting.HttpPort)
 
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),

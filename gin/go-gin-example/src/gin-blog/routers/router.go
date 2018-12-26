@@ -1,13 +1,19 @@
 package routers
 
 import (
+	"fmt"
 	"gin-blog/middleware/jwt"
+	"gin-blog/pkg/logging"
 	"gin-blog/pkg/setting"
 	"gin-blog/pkg/upload"
+	"gin-blog/pkg/util"
 	"gin-blog/routers/api"
 	"gin-blog/routers/api/v1"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
+	"path"
+	"time"
 )
 
 func InitRouter() *gin.Engine {
@@ -15,6 +21,21 @@ func InitRouter() *gin.Engine {
 
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+
+	// 修改gin的日志格式, 可以配合日志分析软件来进行通用的日志分析
+	r.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
+			param.ClientIP,
+			param.TimeStamp.Format(time.RFC1123),
+			param.Method,
+			param.Path,
+			param.Request.Proto,
+			param.StatusCode,
+			param.Latency,
+			param.Request.UserAgent(),
+			param.ErrorMessage,
+		)
+	}))
 
 	gin.SetMode(setting.ServerSetting.RunMode)
 
@@ -43,16 +64,27 @@ func InitRouter() *gin.Engine {
 	}
 
 	r.POST("/upload", api.UploadImage)
+
+	// 官方提供的上传方法
+	r.POST("/upload1", func(c *gin.Context) {
+		file, _ := c.FormFile("image")
+
+		log.Println(file.Filename)
+
+		err := c.SaveUploadedFile(file, "runtime/upload/images/"+util.EncodeMD5(file.Filename)+path.Ext(file.Filename))
+		if err != nil {
+			logging.Error(err)
+		}
+
+		c.String(http.StatusOK, "upload success")
+	})
+
+	// 查看上传的图片
 	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
+
 	r.GET("/auth", api.GetAuth)
 
 	r.GET("/test", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "test",
-		})
-	})
-
-	r.GET("/test2", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "test",
 		})
