@@ -16,7 +16,7 @@ func main() {
 		Url: "https://www.gamersky.com/ent/wp/",
 	}
 
-	err = r.RequestPage()
+	err = r.Init()
 
 	if err != nil {
 		log.Printf("%v", err)
