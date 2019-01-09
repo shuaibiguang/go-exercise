@@ -3,13 +3,15 @@ package setting
 import (
 	"github.com/go-ini/ini"
 	"log"
-	"time"
 )
 
+var ListUrl = make(chan string)
+var ImgSrc = make(chan string, 100)
+var Interval = make(chan int, 1)
+
 type C struct {
-	PageFormat   string
 	DownloadPath string
-	IntervalTime time.Duration
+	IntervalTime int
 }
 
 var CSetting = &C{}
@@ -24,11 +26,10 @@ func Setup() {
 		log.Fatalf("Fail to parse 'conf/c.ini':%v", err)
 	}
 
-	err = cfg.MapTo(CSetting)
+	err = cfg.MapTo(&CSetting)
 
 	if err != nil {
 		log.Fatalf("Cfg.MapTo ReadSetting err: %v", err)
 	}
-
-	CSetting.IntervalTime = CSetting.IntervalTime * time.Second
+	//CSetting.IntervalTime = CSetting.IntervalTime * time.Second
 }
