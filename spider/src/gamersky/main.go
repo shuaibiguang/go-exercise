@@ -4,7 +4,9 @@ import (
 	"gamersky/pkg/getc"
 	"gamersky/pkg/setting"
 	"github.com/PuerkitoBio/goquery"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"strings"
 	"time"
 )
@@ -52,7 +54,7 @@ func main() {
 					// 查询到图片地址后，进行切割拿取图片Url
 					kv := strings.Split(imgurl, "?")
 					if len(kv) == 2 {
-						log.Println(kv[1])
+						//log.Println(kv[1])
 						setting.ImgSrc <- kv[1]
 					}
 				}
@@ -60,11 +62,45 @@ func main() {
 		}
 	} ()
 
+	// 下载图片
+	go func () {
+		for url := range setting.ImgSrc {
+			res, err := http.Get(url)
+
+			if err != nil {
+				log.Println(err.Error())
+				continue
+			}
+
+			if res.StatusCode != 200 {
+				log.Printf("Status code not 200, is :%d，url: %s", res.StatusCode, url)
+				continue
+			}
+
+			content, err := ioutil.ReadAll(res.Body)
+
+			if err != nil {
+				log.Println(err.Error())
+				continue
+			}
+			// 获取文件名
+			fileNames := strings.Split(url, "/")
+			fileName := fileNames[len(fileNames)-1]
+
+			log.Printf("正在下载文件，文件名：%s", fileName)
+
+			err = ioutil.WriteFile(setting.CSetting.DownloadPath + fileName, content, 0777)
+
+			if err != nil {
+				log.Println(err.Error())
+			}
+		}
+	} ()
+
 	// 限制 请求间隔
 	go func () {
 		timers := 0
 		for {
-			log.Println(timers, setting.CSetting.IntervalTime)
 			if timers >= setting.CSetting.IntervalTime {
 				timers = 0
 				setting.Interval <- 2

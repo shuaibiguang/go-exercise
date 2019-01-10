@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gamersky/pkg/setting"
 	"github.com/PuerkitoBio/goquery"
+	"io"
 	"log"
 	"net/http"
 )
@@ -11,6 +12,7 @@ import (
 type Reuqester struct {
 	Url string // 请求的url,
 	PageFormatData string
+	Body []io.ReadCloser
 	Query goquery.Document
 }
 
@@ -25,13 +27,14 @@ func (this *Reuqester) Init () error {
 	if err != nil {
 		return err
 	}
-	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		return fmt.Errorf("Status code not 200, is :%d", res.StatusCode)
+		return fmt.Errorf("Status code not 200, is :%d，url：%s", res.StatusCode, this.Url)
 	}
 
 	log.Println("请求成功，正在格式化网页数据")
+
+	defer res.Body.Close()
 
 	//使用query格式化页面数据
 	if doc, err := goquery.NewDocumentFromReader(res.Body); err != nil {
