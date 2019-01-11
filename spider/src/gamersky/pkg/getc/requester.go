@@ -10,13 +10,13 @@ import (
 )
 
 type Reuqester struct {
-	Url string // 请求的url,
+	Url            string // 请求的url,
 	PageFormatData string
-	Body []io.ReadCloser
-	Query goquery.Document
+	Body           []io.ReadCloser
+	Query          goquery.Document
 }
 
-func (this *Reuqester) Init () error {
+func (this *Reuqester) Init() error {
 	// 使用chan 进行阻塞
 	<-setting.Interval
 
@@ -44,4 +44,3 @@ func (this *Reuqester) Init () error {
 	}
 	return nil
 }
-

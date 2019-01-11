@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-var ListUrl = make(chan string)
+var ListUrl = make(chan string, 100)
 var ImgSrc = make(chan string, 100)
 var Interval = make(chan int, 1)
 
